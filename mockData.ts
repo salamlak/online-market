@@ -43,7 +43,7 @@ export const PRODUCTS: Product[] = [
     description: 'High-back breathable mesh chair with adjustable lumbar support, 3D armrests, and smooth reclining. Designed for sitting comfortably during long work hours.',
     price: 199.50,
     originalPrice: 299.00,
-    badge: 'Taobao Choice',
+    badge: 'Salama Choice',
     salesCount: '850+ sold',
     location: 'Guangzhou',
     image: 'https://images.unsplash.com/photo-1580481072645-022f9a6d1270?w=500&q=80',

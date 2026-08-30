@@ -179,7 +179,7 @@ export async function POST(req: NextRequest) {
     }
 
     const promptText = `
-You are an intelligent e-commerce product search assistant for Taobao.
+You are an intelligent e-commerce product search assistant for Salama Market.
 You are given a product catalog in JSON format below:
 ${JSON.stringify(products, null, 2)}
 

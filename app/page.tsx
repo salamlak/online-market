@@ -31,7 +31,7 @@ const SAMPLE_VARIANTS: SKUOption[] = [
   { color: 'Silver', storage: '1TB', price: 1499.00, stock: 8 },
 ];
 
-export default function TaobaoHomepage() {
+export default function SalamaMarketHomepage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   
@@ -63,14 +63,14 @@ export default function TaobaoHomepage() {
 
   // Hydrate Cart
   useEffect(() => {
-    const savedCart = localStorage.getItem('taobao_cart');
+    const savedCart = localStorage.getItem('salama_cart');
     if (savedCart) {
       try { setCart(JSON.parse(savedCart)); } catch (e) {}
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('taobao_cart', JSON.stringify(cart));
+    localStorage.setItem('salama_cart', JSON.stringify(cart));
   }, [cart]);
 
   // Derived Values
@@ -186,7 +186,7 @@ export default function TaobaoHomepage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 font-sans pb-10">
+    <div className="min-h-screen bg-[#f5f5f5] font-sans pb-10 text-slate-800">
       <input
         type="file"
         ref={fileInputRef}
@@ -207,30 +207,30 @@ export default function TaobaoHomepage() {
       />
 
       {/* HEADER */}
-      <header className="bg-white py-5 border-b border-gray-200 shadow-sm sticky top-0 z-30">
+      <header className="bg-white/95 py-5 border-b border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] sticky top-0 z-30 backdrop-blur-sm">
         <div className="max-w-[1240px] mx-auto flex items-center justify-between px-2">
           
-          <div className="flex items-center gap-2 cursor-pointer" onClick={resetSearch}>
-            <div className="bg-orange-500 text-white font-black text-2xl px-3 py-1 rounded-lg tracking-wider">
-              TAOBAO
+          <div className="flex items-center gap-3 cursor-pointer" onClick={resetSearch}>
+            <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-black text-2xl px-3 py-1.5 rounded-lg tracking-[0.12em] shadow-sm">
+              SALAMA
             </div>
-            <span className="text-xs bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded font-bold flex items-center gap-1">
-              <Sparkles size={12} /> Gemini Vision AI
+            <span className="text-[11px] bg-orange-100 text-orange-700 px-2 py-1 rounded-full font-bold flex items-center gap-1 border border-orange-200">
+              <Sparkles size={11} /> AI Shopping
             </span>
           </div>
 
-          <div className="w-1/2 relative">
+          <div className="w-[52%] relative">
             <form 
               onSubmit={(e) => {
                 e.preventDefault();
                 triggerAiSearch();
               }}
-              className="flex border-2 border-orange-500 rounded-lg overflow-hidden bg-white shadow-sm items-center pr-1"
+              className="flex border-2 border-orange-500 rounded-xl overflow-hidden bg-white shadow-[0_4px_12px_rgba(255,102,0,0.12)] items-center pr-1.5"
             >
               {uploadedImageBase64 && (
                 <div className="ml-2 flex items-center gap-1 bg-orange-100 border border-orange-300 text-orange-700 px-2 py-1 rounded text-xs shrink-0">
                   <img src={uploadedImageBase64} alt="Preview" className="w-5 h-5 object-cover rounded" />
-                  <span className="font-semibold text-[11px]">Pic Attached</span>
+                  <span className="font-semibold text-[11px]">Image</span>
                   <button type="button" onClick={() => { setUploadedImageBase64(null); triggerAiSearch(searchQuery, ''); }} className="hover:text-red-500 ml-0.5">
                     <X size={12} />
                   </button>
@@ -241,8 +241,8 @@ export default function TaobaoHomepage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Describe what you want or upload an image..."
-                className="w-full px-4 py-2.5 text-sm outline-none text-gray-800"
+                placeholder="Describe what you want or upload a product image..."
+                className="w-full px-4 py-3 text-sm outline-none text-gray-800 placeholder:text-gray-400"
               />
 
               {searchQuery && (
@@ -263,21 +263,21 @@ export default function TaobaoHomepage() {
               <button 
                 type="submit" 
                 disabled={isAiLoading}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 font-bold text-sm flex items-center gap-1.5 transition rounded-md shrink-0 disabled:opacity-50"
+                className="bg-gradient-to-r from-orange-500 to-red-500 hover:brightness-105 text-white px-5 py-2.5 font-bold text-sm flex items-center gap-1.5 transition rounded-lg shrink-0 disabled:opacity-50 shadow-sm"
               >
                 {isAiLoading ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
-                AI Search
+                Search
               </button>
             </form>
 
-            <div className="flex gap-2 text-xs text-gray-400 mt-1.5 px-1 items-center">
-              <span className="text-gray-500 font-semibold flex items-center gap-0.5">
-                <Sparkles size={11} className="text-orange-500" /> Prompts:
+            <div className="flex gap-2 text-xs text-gray-400 mt-1.5 px-1 items-center overflow-hidden">
+              <span className="text-gray-500 font-semibold flex items-center gap-0.5 shrink-0">
+                <Sparkles size={11} className="text-orange-500" /> Hot:
               </span>
               {[
-                'Something for long hours at desk',
-                'Quiet keyboard for typing at night',
-                'Comfortable headphones for travel'
+                'Desk setup essentials',
+                'Quiet gaming keyboard',
+                'Travel headphones'
               ].map((prompt, idx) => (
                 <span 
                   key={idx} 
@@ -285,7 +285,7 @@ export default function TaobaoHomepage() {
                     setSearchQuery(prompt);
                     triggerAiSearch(prompt);
                   }} 
-                  className="hover:text-orange-600 underline cursor-pointer truncate max-w-[200px]"
+                  className="hover:text-orange-600 text-gray-500 underline cursor-pointer truncate max-w-[180px]"
                 >
                   "{prompt}"
                 </span>
@@ -296,7 +296,7 @@ export default function TaobaoHomepage() {
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2 bg-orange-50 text-orange-600 border border-orange-200 rounded-lg hover:bg-orange-100 transition"
+              className="relative p-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl hover:bg-orange-100 transition shadow-sm"
             >
               <ShoppingCart size={20} />
               {totalCartCount > 0 && (
@@ -308,7 +308,7 @@ export default function TaobaoHomepage() {
 
             <div 
               onClick={() => setIsChatOpen(!isChatOpen)}
-              className="flex items-center gap-2 border border-orange-200 bg-orange-50 hover:bg-orange-100 px-3 py-2 rounded-lg text-xs cursor-pointer transition"
+              className="flex items-center gap-2 border border-orange-200 bg-orange-50 hover:bg-orange-100 px-3 py-2.5 rounded-xl text-xs cursor-pointer transition shadow-sm"
             >
               <MessageSquare size={18} className="text-orange-500" />
               <div>
@@ -325,9 +325,10 @@ export default function TaobaoHomepage() {
         <div className="grid grid-cols-12 gap-3">
           
           {/* CATEGORIES */}
-          <div className="col-span-3 bg-white rounded-lg p-2 border border-gray-200 relative shadow-sm">
-            <h3 className="font-bold text-sm px-3 py-2 text-gray-700 border-b border-gray-100">
-              Categories
+          <div className="col-span-3 bg-white rounded-xl p-2 border border-orange-100 relative shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
+            <h3 className="font-bold text-sm px-3 py-2.5 text-gray-700 border-b border-gray-100 flex items-center justify-between">
+              <span>Categories</span>
+              <span className="text-[10px] text-orange-500 font-bold">Hot</span>
             </h3>
             <div className="mt-1">
               {CATEGORIES.map((cat) => (
@@ -335,13 +336,13 @@ export default function TaobaoHomepage() {
                   key={cat.id}
                   onMouseEnter={() => setActiveCategory(cat.id)}
                   onMouseLeave={() => setActiveCategory(null)}
-                  className="flex items-center justify-between px-3 py-2.5 hover:bg-orange-50 rounded text-xs text-gray-700 hover:text-orange-600 cursor-pointer transition"
+                  className="flex items-center justify-between px-3 py-2.5 hover:bg-orange-50 rounded-lg text-xs text-gray-700 hover:text-orange-600 cursor-pointer transition"
                 >
                   <span className="font-medium">{cat.name}</span>
                   <ChevronRight size={14} className="text-gray-400" />
 
                   {activeCategory === cat.id && (
-                    <div className="absolute top-0 left-full ml-1 w-[380px] min-h-full bg-white border border-gray-200 rounded-lg shadow-xl p-4 z-50">
+                    <div className="absolute top-0 left-full ml-1 w-[380px] min-h-full bg-white border border-gray-200 rounded-xl shadow-xl p-4 z-50">
                       <h4 className="font-bold text-sm text-orange-600 border-b pb-2 mb-3">{cat.name}</h4>
                       <div className="grid grid-cols-2 gap-2">
                         {cat.subcategories.map((sub, idx) => (
@@ -351,7 +352,7 @@ export default function TaobaoHomepage() {
                               setSearchQuery(sub);
                               triggerAiSearch(sub);
                             }}
-                            className="text-xs text-gray-600 hover:text-orange-500 cursor-pointer bg-gray-50 p-2 rounded hover:bg-orange-50 transition"
+                            className="text-xs text-gray-600 hover:text-orange-500 cursor-pointer bg-gray-50 p-2 rounded-lg hover:bg-orange-50 transition"
                           >
                             {sub}
                           </span>
@@ -365,42 +366,42 @@ export default function TaobaoHomepage() {
           </div>
 
           {/* BANNER */}
-          <div className="col-span-6 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg p-6 text-white flex flex-col justify-between shadow-sm">
+          <div className="col-span-6 bg-gradient-to-r from-[#ff7a00] via-[#ff5a00] to-[#ef3a3a] rounded-xl p-6 text-white flex flex-col justify-between shadow-[0_10px_20px_rgba(255,100,0,0.18)]">
             <div>
-              <span className="bg-white/20 text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wide flex items-center gap-1 w-max">
+              <span className="bg-white/20 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wide flex items-center gap-1 w-max border border-white/30">
                 <Sparkles size={12} /> Gemini Vision AI Engine Active
               </span>
               <h1 className="text-3xl font-extrabold mt-3 leading-tight">
-                Upload Any Photo or Describe Products
+                Discover Smart Products in Seconds
               </h1>
-              <p className="text-xs opacity-90 mt-1">Upload a photo from your computer or type natural descriptions to match products instantly.</p>
+              <p className="text-xs opacity-90 mt-2 max-w-md">Upload a photo or describe your needs and let the AI match the best deals from the catalog.</p>
             </div>
             <button 
               onClick={() => fileInputRef.current?.click()}
-              className="bg-white text-orange-600 font-bold px-5 py-2.5 rounded-lg text-xs w-max hover:bg-gray-100 transition shadow-md flex items-center gap-1.5"
+              className="bg-white text-orange-600 font-bold px-5 py-2.5 rounded-lg text-xs w-max hover:bg-orange-50 transition shadow-md flex items-center gap-1.5"
             >
               <Upload size={15} /> Upload Photo to Search
             </button>
           </div>
 
           {/* USER CARD */}
-          <div className="col-span-3 bg-white rounded-lg p-4 border border-gray-200 shadow-sm flex flex-col items-center text-center">
-            <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-500 mb-2">
+          <div className="col-span-3 bg-white rounded-xl p-4 border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.03)] flex flex-col items-center text-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-200 rounded-full flex items-center justify-center text-orange-500 mb-2">
               <User size={24} />
             </div>
             <p className="text-xs font-bold text-gray-800">Hi, Guest User!</p>
-            <p className="text-[11px] text-gray-400 mt-0.5">Welcome back to Taobao</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">Welcome back to Salama Market</p>
             
             <div className="flex gap-2 w-full mt-3">
-              <button className="w-1/2 bg-orange-500 text-white text-xs py-1.5 rounded font-bold hover:bg-orange-600">Login</button>
-              <button className="w-1/2 border border-gray-300 text-xs py-1.5 rounded font-semibold text-gray-600 hover:border-gray-400">Register</button>
+              <button className="w-1/2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs py-1.5 rounded-lg font-bold hover:brightness-105">Login</button>
+              <button className="w-1/2 border border-gray-300 text-xs py-1.5 rounded-lg font-semibold text-gray-600 hover:border-gray-400">Register</button>
             </div>
 
             <div className="w-full border-t border-gray-100 mt-4 pt-3 text-left">
               <p className="text-xs font-bold text-gray-700 flex items-center gap-1">
                 <ShieldCheck size={14} className="text-green-500" /> Buyer Protection
               </p>
-              <p className="text-[10px] text-gray-400 mt-1">100% Guaranteed delivery and instant refund.</p>
+              <p className="text-[10px] text-gray-400 mt-1">100% guaranteed delivery and quick refund support.</p>
             </div>
           </div>
 
@@ -436,14 +437,14 @@ export default function TaobaoHomepage() {
           )}
 
           {isAiLoading ? (
-            <div className="bg-white p-16 text-center rounded-lg border border-gray-200">
+            <div className="bg-white p-16 text-center rounded-xl border border-gray-200 shadow-sm">
               <Loader2 size={36} className="mx-auto text-orange-500 animate-spin mb-3" />
               <p className="text-sm font-bold text-gray-800">Gemini AI is analyzing your input...</p>
             </div>
           ) : displayedProducts.length === 0 ? (
-            <div className="bg-white p-12 text-center rounded-lg border border-gray-200">
+            <div className="bg-white p-12 text-center rounded-xl border border-gray-200 shadow-sm">
               <p className="text-gray-500 text-sm">No products matched your AI search.</p>
-              <button onClick={resetSearch} className="mt-3 bg-orange-500 text-white text-xs px-4 py-2 rounded font-bold">
+              <button onClick={resetSearch} className="mt-3 bg-orange-500 text-white text-xs px-4 py-2 rounded-lg font-bold">
                 Clear Filters
               </button>
             </div>
@@ -453,10 +454,10 @@ export default function TaobaoHomepage() {
                 <div 
                   key={product.id}
                   onClick={() => setSelectedProduct(product)}
-                  className="bg-white border border-gray-200 rounded-lg p-2.5 hover:border-orange-500 hover:shadow-lg transition cursor-pointer flex flex-col justify-between group"
+                  className="bg-white border border-gray-200 rounded-xl p-2.5 hover:border-orange-300 hover:shadow-[0_8px_18px_rgba(255,112,0,0.12)] transition cursor-pointer flex flex-col justify-between group"
                 >
                   <div>
-                    <div className="aspect-square relative overflow-hidden rounded bg-gray-100">
+                    <div className="aspect-square relative overflow-hidden rounded-lg bg-gray-100">
                       <img 
                         src={product.image} 
                         alt={product.title} 
@@ -466,20 +467,24 @@ export default function TaobaoHomepage() {
                         <ZoomIn size={14} />
                       </div>
                     </div>
+
+                    <div className="mt-2.5 flex items-center gap-2">
+                      <span className="bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded text-[10px] font-bold">{product.badge}</span>
+                    </div>
                     
-                    <div className="mt-2.5 flex items-baseline gap-1 text-orange-600">
+                    <div className="mt-2 flex items-baseline gap-1 text-orange-600">
                       <span className="text-xs font-bold">$</span>
                       <span className="text-xl font-extrabold">{product.price.toFixed(2)}</span>
                       <span className="text-[11px] text-gray-400 line-through font-normal">${product.originalPrice.toFixed(2)}</span>
                     </div>
 
-                    <h3 className="text-xs text-gray-800 font-medium line-clamp-2 mt-1 group-hover:text-orange-600 transition">
+                    <h3 className="text-xs text-gray-800 font-medium line-clamp-2 mt-1 group-hover:text-orange-600 transition leading-snug">
                       {product.title}
                     </h3>
                   </div>
 
-                  <div className="mt-3 border-t border-gray-50 pt-2 flex items-center justify-between text-[10px] text-gray-400">
-                    <span className="bg-orange-50 text-orange-600 px-1.5 py-0.5 rounded font-semibold">{product.badge}</span>
+                  <div className="mt-3 border-t border-gray-100 pt-2 flex items-center justify-between text-[10px] text-gray-400">
+                    <span className="text-orange-600 font-bold">{product.location}</span>
                     <span>{product.salesCount}</span>
                   </div>
                 </div>
